@@ -10,9 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.edu.web.BulletinAddController;
+import com.edu.web.BulletinDeleteController;
 import com.edu.web.BulletinFormController;
 import com.edu.web.BulletinListController;
 import com.edu.web.BulletinSelectController;
+import com.edu.web.BulletinUpdateController;
+import com.edu.web.NoticeAddController;
+import com.edu.web.NoticeDeleteController;
+import com.edu.web.NoticeFormController;
+import com.edu.web.NoticeListController;
+import com.edu.web.NoticeSelectController;
+import com.edu.web.NoticeUpdateController;
 
 
 public class FrontController extends HttpServlet {
@@ -30,6 +38,17 @@ public class FrontController extends HttpServlet {
 		map.put("/bulletinForm.do", new BulletinFormController());
 		map.put("/bulletinAdd.do", new BulletinAddController());
 		map.put("/bulletinSelect.do", new BulletinSelectController());
+		map.put("/bulletinUpdate.do", new BulletinUpdateController());
+		map.put("/bulletinDelete.do", new BulletinDeleteController());
+		
+		//공지사항컨트롤
+		map.put("/noticeList.do", new NoticeListController());
+		map.put("/noticeSelect.do", new NoticeSelectController());
+		map.put("/noticeForm.do", new NoticeFormController());
+		map.put("/noticeAdd.do", new NoticeAddController());
+		map.put("/noticeUpdate.do", new NoticeUpdateController());
+		map.put("/noticeDelete.do", new NoticeDeleteController());
+	
 	}
 	
 	
