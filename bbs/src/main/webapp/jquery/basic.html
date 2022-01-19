@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery-3.6.0.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadEventjQuery);
+
+        function loadEvent() {
+            const fruits = ['Apple', 'Banana', 'Cherry'];
+            let ul = document.createElement('ul');
+            fruits.forEach(function (item) {
+                let li = document.createElement('li');
+                li.setAttribute('class',item);
+                li.innerText = item
+                ul.appendChild(li);
+            })
+            document.getElementById('show').appendChild(ul);
+        }
+
+        // $('#show') => 요소선택: css선택자
+        // $('<div>') => 요서생성.
+        // jQuery -> 사용방식은 함수()
+        function loadEventjQuery() {
+            const fruits = ['Apple', 'Banana', 'Cherry'];
+            let ul = $('<ul>');
+            fruits.forEach(function (item) {
+                let li = $('<li>').attr('class', item);
+                    // li.attr('class', item);
+                    li.text(item);
+                    ul.append(li);
+            });
+            $('#show').append(ul);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="show"></div>
+</body>
+
+</html>

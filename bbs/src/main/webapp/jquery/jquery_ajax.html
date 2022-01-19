@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: 'jquery_data.json', // 요청페이지
+                type: 'get', // 요청방식:get, post
+                dataType: 'json',
+                success: makePage,
+                error:function (err) {
+                    console.log(err);
+                }
+            });
+            let fields = ['id','first_name','last_name','email','gender','ip_address'];
+
+            function makePage(result) {
+                console.log(result);
+                let table = $('<table border="1">');
+                let thead = $('<thead>');
+                let tbody = makeBody(result);
+
+                table.append(tbody);
+
+                console.log(table);
+                $('#show').append(table);
+            }
+
+            function makeTr(obj) {
+                let tr = $('<tr>').attr('id',obj.id);
+                fields.forEach(function (field) {
+                    console.log(field);
+                    let td = $('<td>').text(obj[field]);
+                    tr.append(td);
+                });
+                return tr;
+            }
+
+            function makeBody(dataAry) {
+                let tbody = $('<tbody>');
+                dataAry.forEach(function (item) {
+                    tbody.append(makeTr(item));
+                });
+                return tbody;
+            }
+
+            //등록...
+            $('#register').click(function() {});
+            $('#register').on('click',function() {
+                let id = $('#id').val();
+                let fn = $('#first_name').val();
+                let ln = $('#last_name').val();
+                let em = $('#email').val();
+                let gn = $('#gender').val();
+                let ia = $('#ip_address').val();
+                if(id=='' || fn=='' || ln=='' || em == '' || gn == '' || ia == '') {
+                    alert('필수값입력.');
+                    return;
+                }
+                let obj = {
+                    id:id,
+                    first_name:fn,
+                    last_name:ln,
+                    email:em,
+                    gender: gn,
+                    ip_address: ia
+                }
+
+                let tr = makeTr(obj);
+
+                $('#show>table>tbody').append(tr);
+
+            })
+        });
+    </script>
+</head>
+<body>
+    <h3>입력화면</h3>
+    <div id="add">
+        아이디: <input type="text" id="id"><br>
+        이름: <input type="text" id="first_name"><br>
+        성씨: <input type="text" id="last_name"><br>
+        이메일: <input type="text" id="email"><br>
+        성별: <input type="text" id="gender"><br>
+        IP: <input type="text" id="ip_address"><br>
+        <button id="register">등록</button>
+    </div>
+    <div id="show"></div>
+    
+</body>
+</html>
