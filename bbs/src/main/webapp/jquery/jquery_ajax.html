@@ -33,13 +33,33 @@
 
             function makeTr(obj) {
                 let tr = $('<tr>').attr('id',obj.id);
+                $(tr).click(function() {
+                    // 한건클릭 -> 각 요소찾아와서 값을 대입.
+                    console.log(this);
+                    let id = $(this).children().eq(0).text();
+                    $('#id').val(id);
+
+                    $('#first_name').val($(this).children().eq(1).text());
+                    $('#last_name').val($(this).children().eq(2).text());
+                    $('#email').val($(this).children().eq(3).text());
+                    $('#gender').val($(this).children().eq(4).text());
+                    $('#ip_address').val($(this).children().eq(5).text());
+                });
                 fields.forEach(function (field) {
                     console.log(field);
                     let td = $('<td>').text(obj[field]);
-                    tr.append(td);
+                        tr.append(td);
                 });
+                // 버튼추가
+                let btn = $('<button>').text('삭제');
+                btn.click(function() {
+                    console.log(this); //event에서 this 사용되면 event 받는대상
+                    $(this).parent().parent().remove(); // 요소를 제거
+                })
+                let td = $('<td>').html(btn);
+                tr.append(td);
                 return tr;
-            }
+            } // makeTr 의끝부분
 
             function makeBody(dataAry) {
                 let tbody = $('<tbody>');
@@ -72,10 +92,25 @@
                 }
 
                 let tr = makeTr(obj);
-
                 $('#show>table>tbody').append(tr);
 
-            })
+            }) //register Event의 끝부부분
+            // 변경
+            $('#modify').on('click',function() {
+                // 수정화면 -> 리스트 결과값에 반영.
+                let fn = $('#first_name').val(); //입력화면의 first_name의 value.
+                let ln = $('#last_name').val(); //사용자 입력값
+                let em = $('#email').val();
+                let gen = $('#gender').val();
+                let ip = $('#ip_address').val();
+
+                let findId = $('#id').val(); //리스트중에서 찾을 아이디
+                $(`#${findId}`).children().eq(1).text(fn);
+                $(`#${findId}`).children().eq(2).text(ln);
+                $(`#${findId}`).children().eq(3).text(em);
+                $(`#${findId}`).children().eq(4).text(gen);
+                $(`#${findId}`).children().eq(5).text(ip);
+            }) // modify이벤트의 끝부분
         });
     </script>
 </head>
@@ -89,8 +124,10 @@
         성별: <input type="text" id="gender"><br>
         IP: <input type="text" id="ip_address"><br>
         <button id="register">등록</button>
+        <button id="modify">변경</button>
     </div>
-    <div id="show"></div>
+    <div id="show">
+    </div>
     
 </body>
 </html>

@@ -7,6 +7,7 @@ import java.util.List;
 import com.edu.common.DAO;
 import com.edu.service.BulletinService;
 import com.edu.vo.BulletinVO;
+import com.edu.vo.ReplyVO;
 
 public class BulletinDAO extends DAO implements BulletinService {
 	
@@ -156,6 +157,90 @@ public class BulletinDAO extends DAO implements BulletinService {
 		}
 		
 		return bbsId;
+	}
+
+	@Override
+	public List<ReplyVO> selectReplyList(int bbsId) {
+		connect();
+		String sql = "SELECT * FROM reply WHERE bbs_id=?";
+		List<ReplyVO> rList = new ArrayList<>();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, bbsId);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				ReplyVO vo = new ReplyVO();
+				vo.setBbsId(rs.getInt("bbs_id"));
+				vo.setReplyContent(rs.getString("reply_content"));
+				vo.setReplyDate(rs.getString("reply_date"));
+				vo.setReplyId(rs.getInt("reply_id"));
+				vo.setReplyWriter(rs.getString("reply_writer"));
+				rList.add(vo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return rList; //컬렉션에 값을 담아서 반환.
+	}
+
+	@Override
+	public ReplyVO insertReply(ReplyVO vo) {
+		connect();
+		String sql1 = "SELECT reply_id_seq.nextval, sysdate FROM dual"; 
+		String sql = "INSERT INTO reply (reply_id,reply_content,reply_writer,reply_date,bbs_id)"
+				+ "values(?,?,?,to_date(?,'yyyy-mm-dd hh24:mi:ss'),?)";
+		try {
+			psmt = conn.prepareStatement(sql1);
+			rs = psmt.executeQuery();
+			int replySeq = 0;
+			String replyDate = "";
+			if(rs.next()) {
+				replySeq = rs.getInt(1);
+				replyDate = rs.getString(2);
+				System.out.println(replyDate);
+			}
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, replySeq);
+			psmt.setString(2, vo.getReplyContent());
+			psmt.setString(3, vo.getReplyWriter());
+			psmt.setString(4, replyDate);
+			psmt.setInt(5, vo.getBbsId());
+			
+			int r = psmt.executeUpdate();
+			System.out.println(r + "건 입력");
+			
+			vo.setReplyId(replySeq); // 생성된값
+			vo.setReplyDate(replyDate); //생성된값
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+		disconnect();
+		}
+		return vo;
+	}
+
+	@Override
+	public boolean deleteReply(int rid) {
+		connect();
+		String sql = "DELETE FROM reply WHERE reply_id=?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, rid);
+			int r = psmt.executeUpdate();
+			System.out.println(r + "댓글삭제");
+	
+			if(r > 0) { // 정상삭제
+				return true;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return false;
 	}
 	
 }
