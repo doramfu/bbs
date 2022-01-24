@@ -13,6 +13,8 @@ public interface MemberService {
 	public boolean memberUpdate(MemberVO vo);
 	//회원리스트
 	public List<MemberVO> memberList();
+	//회원조회
+	public MemberVO memberSelect(String id);
 	//로그인
 	public MemberVO login(String id, String pw);
 }

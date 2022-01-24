@@ -13,7 +13,9 @@
 	</c:when>
 	<c:otherwise>
 			   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="${pageContext.request.contextPath }/logOut.do">로그아웃</a>
-			   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">마이페이지</a>
+			   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="${pageContext.request.contextPath }/mypage.do?id=${sessionId}">마이페이지</a>
 	</c:otherwise>
 	</c:choose>
+	   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="${pageContext.request.contextPath }/shopItemList.do">상품정보</a>
+	
 </div>

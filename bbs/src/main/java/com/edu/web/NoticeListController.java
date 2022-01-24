@@ -19,7 +19,7 @@ public class NoticeListController implements Controller {
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//전체리스트 조회
 		
-		String path = "notice/noticeList.tiles";
+		String path = "notice/noticeTable.tiles";
 		
 		//게시글리스트
 		NoticeService service = new NoticeDAO();

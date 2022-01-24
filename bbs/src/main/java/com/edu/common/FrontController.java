@@ -15,9 +15,12 @@ import com.edu.web.BulletinFormController;
 import com.edu.web.BulletinListController;
 import com.edu.web.BulletinSelectController;
 import com.edu.web.BulletinUpdateController;
+import com.edu.web.ItemListJsonController;
 import com.edu.web.LogOutController;
 import com.edu.web.LoginController;
 import com.edu.web.LoginFormController;
+import com.edu.web.MyPageController;
+import com.edu.web.MyPageUpdateController;
 import com.edu.web.NoticeAddController;
 import com.edu.web.NoticeDeleteController;
 import com.edu.web.NoticeFormController;
@@ -27,6 +30,7 @@ import com.edu.web.NoticeUpdateController;
 import com.edu.web.ReplyDeleteController;
 import com.edu.web.ReplyRegisterController;
 import com.edu.web.ReplySelectController;
+import com.edu.web.ShopItemListController;
 
 
 public class FrontController extends HttpServlet {
@@ -64,7 +68,12 @@ public class FrontController extends HttpServlet {
 		map.put("/loginForm.do", new LoginFormController());
 		map.put("/login.do", new LoginController());
 		map.put("/logOut.do", new LogOutController());
+		map.put("/mypage.do", new MyPageController());
+		map.put("/myUpdate.do", new MyPageUpdateController());
 		
+		//아작스 처리
+		map.put("/shopItemList.do", new ShopItemListController());
+		map.put("/itemListJson.do", new ItemListJsonController());
 	}
 	
 	

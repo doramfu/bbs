@@ -8,7 +8,9 @@ import com.edu.vo.ReplyVO;
 public interface BulletinService {
 	
 	// 기능정의만
+//	public List<BulletinVO> selectList(int page);
 	public List<BulletinVO> selectList();
+	public int selectCnt();
 	public BulletinVO selectONe(int bbsId);
 	public BulletinVO insert(BulletinVO vo);
 	public BulletinVO update(BulletinVO vo);

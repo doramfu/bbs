@@ -13,12 +13,23 @@ public class BulletinDAO extends DAO implements BulletinService {
 	
 	
 	@Override
-	public List<BulletinVO> selectList() {
+//	public List<BulletinVO> selectList(int page) {
+		public List<BulletinVO> selectList() {
+		int startCnt, endCnt = 0;
+//		startCnt = (page-1) * 10 + 1;
+	//	endCnt = page * 10;
+		
 		connect();
-		String sql = "SELECT * FROM bbs order by 1";
+		String sql = "select b.* from\r\n"
+				+ "(select rownum rn,a.* from\r\n"
+				+ "(select * from bbs order by 1)a)b\r\n"
+				+ "where b.rn between ? and ?";
+		sql = "select * FROM bbs ORDER BY 1 desc";
 		List<BulletinVO> list = new ArrayList<>();
 		try {
 			psmt = conn.prepareStatement(sql);
+			//psmt.setInt(1, startCnt); // 페이지의 첫번째 rn
+			//psmt.setInt(2, endCnt); //페이지의 마지막 rn
 			rs = psmt.executeQuery();
 			while(rs.next()) {
 				BulletinVO bulletin = new BulletinVO();
@@ -38,6 +49,22 @@ public class BulletinDAO extends DAO implements BulletinService {
 			disconnect();
 		}
 		return list;
+	}
+	@Override
+	public int selectCnt() {
+		String sql = "SELECT COUNT(*) FROM bbs";
+		connect();
+		int totalCnt = 0;
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				totalCnt = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return totalCnt;
 	}
 
 	@Override

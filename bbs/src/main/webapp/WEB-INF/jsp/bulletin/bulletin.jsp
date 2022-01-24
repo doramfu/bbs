@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
 	function deleteFunc(id) {
 		document.forms.delFrm.id.value = id;
@@ -14,14 +14,15 @@
 	<input type="hidden" name="id">
 </form>
 
-<form id="detailFrm" action="${pageContext.request.contextPath }/bulletinUpdate.do"
+<form id="detailFrm"
+	action="${pageContext.request.contextPath }/bulletinUpdate.do"
 	method="post">
 	<input type="hidden" name="id" value="${bulletin.bbsId }">
 	<table class="table" border="1">
 		<tbody>
 			<tr>
 				<th>글번호</th>
-				<td>${bulletin.bbsId } / 작성자 ${bulletin.bbsWriter }</td>
+				<td>${bulletin.bbsId }/ 작성자 ${bulletin.bbsWriter }</td>
 			</tr>
 			<tr>
 				<th>제목</th>
@@ -30,7 +31,8 @@
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td><textarea class="form-control" name="content" cols="20" rows="3">${bulletin.bbsContent }</textarea></td>
+				<td><textarea class="form-control" name="content" cols="20"
+						rows="3">${bulletin.bbsContent }</textarea></td>
 			</tr>
 			<tr>
 				<th>작성일시</th>
@@ -41,47 +43,55 @@
 				<td>${bulletin.bbsHit }</td>
 			</tr>
 			<tr>
-				<td colspan="2">
-				<c:choose>
-					<c:when test="${bulletin.bbsWriter == sessionId }">
-				<input type="submit" value="수정"> 
-				<input
-					type="reset" value="초기화"> <input type="button" value="삭제"
-					onclick="deleteFunc(${bulletin.bbsId})"></td>
-					</c:when>
-					<c:otherwise>
+				<th>이미지</th>
+				<td><c:choose>
+						<c:when test=" ${empty bulletin.bbsImage }">
+							<p>등록된 이미지가 없습니다</p>
+						</c:when>
+						<c:otherwise>
+							<img width="200px" src='upload/${bulletin.bbsImage }'>
+						</c:otherwise>
+					</c:choose>
+			</tr>
+			<tr>
+				<td colspan="2"><c:choose>
+						<c:when test="${bulletin.bbsWriter == sessionId }">
+							<input type="submit" value="수정">
+							<input type="reset" value="초기화">
+							<input type="button" value="삭제"
+								onclick="deleteFunc(${bulletin.bbsId})"></td>
+				</c:when>
+				<c:otherwise>
 					<input type="submit" disabled value="수정">
-						<a href="${pageContext.request.contextPath }/bulletinList.do">글목록으로</a>
-					</c:otherwise>
+					<a href="${pageContext.request.contextPath }/bulletinList.do">글목록으로</a>
+				</c:otherwise>
 				</c:choose>
 			</tr>
 		</tbody>
 	</table>
 </form>
-	<style>
-		div.row {
-			border: 1px dotted red;
-			margin-bottom: 3px;
-		}
-	</style>
-	<div class="reply">
-		<h4>댓글목록</h4>
-		<div class="reply-List">
-			
+<style>
+div.row {
+	border: 1px dotted red;
+	margin-bottom: 3px;
+}
+</style>
+<div class="reply">
+	<h4>댓글목록</h4>
+	<div class="reply-List"></div>
+	<div class="reply_register">
+		<div>
+			작성자: <span id="wirter">${sessionId }</span>
 		</div>
-		<div class="reply_register">
-			<div>작성자:
-				<span id="wirter">${sessionId }</span>
-			</div>
-			<div>
-				<textarea cols="40" rows="5" id="content"></textarea>
-			</div>
-			<div>
-				<button id="register">등록</button>
-			</div>
+		<div>
+			<textarea cols="40" rows="5" id="content"></textarea>
+		</div>
+		<div>
+			<button id="register">등록</button>
 		</div>
 	</div>
-	<script>
+</div>
+<script>
 		//데이터 한건을 가지고 리스트에 추가.
 		function attachList(reply) {
 			let div = $('<div>').attr('class','row').attr('id',reply.replyId);
@@ -96,7 +106,15 @@
 		
 		// 댓글삭제 function
 		function deleteReply() {
+			console.log(this);
 			let delId = $(this).parent().attr('id');
+			// 댓글을 작성한 userId == 삭제하려고 하는 userId
+			let writer = $(this).parent().children().eq(0).text();
+			if(writer == "${sessionId}") {
+				alert('권한이 없습니다.,.');
+				return;
+			}
+			
 			console.log(delId);
 			$.ajax({
 				url: 'deleteReply.do', //호출주소.
