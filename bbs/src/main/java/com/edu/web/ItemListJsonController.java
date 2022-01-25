@@ -20,7 +20,7 @@ public class ItemListJsonController implements Controller {
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		resp.setCharacterEncoding("utf-8");
-		resp.setCharacterEncoding("text/json;charset=utf-8");
+		resp.setContentType("text/json;charset=utf-8");
 		ShopItemService service = new ShopDAO();
 		List<ShopItem> list = service.itemList();
 		

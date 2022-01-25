@@ -16,6 +16,7 @@
 			   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="${pageContext.request.contextPath }/mypage.do?id=${sessionId}">마이페이지</a>
 	</c:otherwise>
 	</c:choose>
-	   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="${pageContext.request.contextPath }/shopItemList.do">상품정보</a>
+	   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="${pageContext.request.contextPath }/shopItemList.do">전체상품보기(ajax)</a>
+	   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="${pageContext.request.contextPath }/shopItemList2.do">전체상품보기</a>
 	
 </div>

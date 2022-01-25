@@ -38,4 +38,53 @@ public class ShopDAO extends DAO implements ShopItemService {
 		return itemList;
 	}
 
+	@Override
+	public void insertItem(ShopItem vo) {
+		String sql = "INSERT INTO shop_item VALUES(shop_item_seq.nextval,?,?,?,?,?,?)";
+		connect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getItemName());
+			psmt.setString(2, vo.getItemDesc());
+			psmt.setDouble(3, vo.getLikeIt());
+			psmt.setInt(4, vo.getOriginPrice());
+			psmt.setInt(5, vo.getSalePrice());
+			psmt.setString(6, vo.getImage());
+			
+			int r = psmt.executeUpdate();
+			System.out.println(r + "건 입력");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+
+	@Override
+	public ShopItem selectItem(int itemid) {
+		String sql = "SELECT * FROM shop_item WHERE item_id=?";
+		connect();
+		ShopItem item = null;
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, itemid);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				item = new ShopItem();
+				item.setItemId(rs.getInt("item_id"));
+				item.setItemName(rs.getString("item_name"));
+				item.setItemDesc(rs.getString("item_desc"));
+				item.setImage(rs.getString("image"));
+				item.setOriginPrice(rs.getInt("origin_price"));
+				item.setSalePrice(rs.getInt("sale_price"));
+				item.setLikeIt(rs.getDouble("like_it"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return item;
+	}
+
 }

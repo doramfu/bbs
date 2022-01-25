@@ -30,7 +30,12 @@ import com.edu.web.NoticeUpdateController;
 import com.edu.web.ReplyDeleteController;
 import com.edu.web.ReplyRegisterController;
 import com.edu.web.ReplySelectController;
+import com.edu.web.ShopItemAddController;
+import com.edu.web.ShopItemDetailController;
+import com.edu.web.ShopItemList2Controller;
 import com.edu.web.ShopItemListController;
+import com.edu.web.ShopItemUpdload2Controller;
+import com.edu.web.ShopItemUpdloadController;
 
 
 public class FrontController extends HttpServlet {
@@ -74,6 +79,13 @@ public class FrontController extends HttpServlet {
 		//아작스 처리
 		map.put("/shopItemList.do", new ShopItemListController());
 		map.put("/itemListJson.do", new ItemListJsonController());
+		
+		map.put("/shopItemList2.do", new ShopItemList2Controller());
+		map.put("/shopItemAdd.do", new ShopItemAddController());
+		map.put("/shopItemUpload.do", new ShopItemUpdloadController());
+		map.put("/shopItemUpload2.do", new ShopItemUpdload2Controller());
+		map.put("/shopItemDetail.do", new ShopItemDetailController());
+	
 	}
 	
 	
